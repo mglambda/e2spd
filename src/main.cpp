@@ -13,11 +13,11 @@
 #include "utility.hpp"
 
 State::commands_t commands = {{"s", stopSpeaking},
-	                              {"l", speakChar},
+                              {"l", speakChar},
                               {"q", queueMsg},
                               {"d", speakQueue},
                               {"tts_set_punctuations", ttsSetPunctuation},
-							  {"tts_split_caps", ttsSetSplitCaps},
+                              {"tts_split_caps", ttsSetSplitCaps},
                               {"tts_set_speech_rate", ttsSetSpeechRate},
 
                               {"tts_sync_state", ttsSyncState},
@@ -41,6 +41,7 @@ int main(int argc, char** argv) {
     while (true) {
         getline(cin, line);
         log<Raw>(line);
+
         auto [cmd, data] = split1(line, " ");
         log<Debug>(cmd, " with data: ", data);
 

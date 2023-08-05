@@ -5,6 +5,9 @@
 #include <optional>
 #include <string_view>
 
+
+#include "log.hpp"
+
 inline std::pair<std::string, std::string> split1(const std::string w,
                                                   const std::string delimiter) {
     auto i = w.find(delimiter);
@@ -12,24 +15,20 @@ inline std::pair<std::string, std::string> split1(const std::string w,
         return std::make_pair(w, "");
     }
 
-    return std::make_pair(w.substr(0, i), w.substr(i));
+    return std::make_pair(w.substr(0, i), w.substr(i+1));
 }
-
-inline void log(std::string w) { std::cout << w << std::endl; }
 
 inline std::optional<int> strToInt(const std::string& w) {
     int i;
     try {
         i = stoi(w);
     } catch (...) {  // FIXME: specify exceptions
-        log("error: couldn't convert string to integer.");
+        log<Error>("error: couldn't convert string to integer.");
         return std::optional<int>();
     }
 
     return std::optional(i);
 }
-
-
 
 inline std::string_view ltrim(std::string_view str) {
     const auto pos(str.find_first_not_of(" \t\n\r\f\v"));
@@ -48,6 +47,5 @@ inline std::string_view trim(std::string_view str) {
     str = rtrim(str);
     return str;
 }
-
 
 #endif

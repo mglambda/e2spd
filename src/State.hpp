@@ -11,7 +11,7 @@
 
 class State {
 private:
-	typedef std::function<void(State&, std::string)> command_handler_t;
+	typedef std::function<void(State&, const std::string)> command_handler_t;
   struct command_entry_t {
     std::string cmd;
 	  command_handler_t handler;

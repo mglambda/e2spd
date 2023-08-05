@@ -9,13 +9,13 @@
 #include "log.hpp"
 #include "utility.hpp"
 
-inline void queueMsg(State& st, std::string w) {
+inline void queueMsg(State& st, const std::string w) {
     st.msgs.push(w);
 
     return;
 }
 
-inline void speakQueue(State& st, std::string dummy) {
+inline void speakQueue(State& st, const std::string dummy) {
     if (st.msgs.empty()) {
         return;
     }
@@ -32,21 +32,23 @@ inline void speakQueue(State& st, std::string dummy) {
     return;
 }
 
-inline void speakChar(State& st, std::string w) { st.tts.sayChar(w); }
+inline void speakChar(State& st, const std::string w) { st.tts.sayChar(w); }
 
-inline void stopSpeaking(State& st, std::string dummy) { st.tts.stop(); }
+inline void stopSpeaking(State& st, const std::string dummy) { st.tts.stop(); }
 
-inline void ttsSay(State& st, std::string w) { st.tts.say(w); }
+inline void ttsSay(State& st, const std::string w) { st.tts.say(w); }
 
-inline void ttsSetSpeechRate(State& st, std::string w) {
+inline void ttsSetSpeechRate(State& st, const std::string w) {
     auto maybeRate = strToInt(w);
     if (!maybeRate) {
         return;
     }
+
+	log<Debug>("Setting rate to ", *maybeRate);
     st.tts.setRate(*maybeRate);
 }
 
-inline void ttsSetPunctuation(State& st, std::string w) {
+inline void ttsSetPunctuation(State& st, const std::string w) {
     auto v = trim(w);
     auto punct = std::optional<SPDPunctuation>();
     if (v == "all") {
@@ -67,7 +69,7 @@ inline void ttsSetPunctuation(State& st, std::string w) {
     log<Error>("Attempt to set punctuation to unsupported mode: ", v);
 } /* end ttsSetPunctuation */
 
-inline void ttsSetSplitCaps(State& st, std::string w) {
+inline void ttsSetSplitCaps(State& st, const std::string w) {
     auto maybeSplitCapsInt = strToInt(w);
 
     if (!maybeSplitCapsInt) {
@@ -75,13 +77,53 @@ inline void ttsSetSplitCaps(State& st, std::string w) {
         return;
     }
 
+	log<Debug>("Setting splitcaps to ", *maybeSplitCapsInt);
     st.tts.setSplitCapitalization(*maybeSplitCapsInt);
 }
 
-inline void ttsSyncState(State& st, std::string w) {
-    //         punct, splitcaps 1/0, caps 1/0, rate
+inline void ttsSyncState(State& st, const std::string w) {
+    auto args = std::vector<std::string>{};
+    boost::algorithm::split(args, w,
+                            [](const char delim) { return delim == ' '; });
+    if (args.size() < 4) {
+        log<Error>("error trying to sync tts state: Not enough arguments.");
+        return;
+    }
 
-	
+    auto punct = args[0];                     // "none", "some", or "all"
+    auto maybeSplitCaps = strToInt(args[1]);  // "0" or "1"
+    auto maybeCaps = strToInt(args[2]);       // "0" or "1"
+    auto rate = args[3];                      // string representing small int
+
+    ttsSetPunctuation(st, punct);
+    ttsSetSpeechRate(st, rate);
+
+    if (!maybeSplitCaps || !maybeCaps) {
+        log<Error>("error trying to sync state: Malformed arguments.");
+        return;
+    }
+
+    bool splitcaps = *maybeSplitCaps;
+    bool caps = *maybeCaps;
+
+    /* as far as I'm aware speech-dispatcher doesn't track splitcaps seperately,
+     * instead combining splitcaps and caps into 3 capitalization submodes. So
+     * we have to repackage the arguments a little here. */
+    if (splitcaps) {
+		log<Debug>("Setting caps to icon");
+        st.tts.setCapitalization(SPD_CAP_ICON);
+        return;
+    }
+
+    if (caps) {
+		log<Debug>("Setting caps to spell");
+        st.tts.setCapitalization(SPD_CAP_SPELL);
+    } else {
+		log<Debug>("Setting caps to none");
+        st.tts.setCapitalization(SPD_CAP_NONE);
+    }
 }
 
 #endif
+
+
