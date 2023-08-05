@@ -2,6 +2,7 @@
 #ifndef __E2SPD_COMMANDS_HPP__
 #define __E2SPD_COMMANDS_HPP__
 
+#include <boost/algorithm/string.hpp>
 #include <thread>
 
 #include "State.hpp"
@@ -79,6 +80,8 @@ inline void ttsSetSplitCaps(State& st, std::string w) {
 
 inline void ttsSyncState(State& st, std::string w) {
     //         punct, splitcaps 1/0, caps 1/0, rate
+
+	
 }
 
 #endif

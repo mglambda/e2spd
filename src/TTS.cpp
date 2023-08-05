@@ -27,7 +27,7 @@ void TTS::setPunctuation(SPDPunctuation level) {
         SPD_PUNCT_SOME = 2,
         SPD_PUNCT_MOST = 3	 */
     log<Debug>("setting punct to", level);
-    if (spd_set_punctuation(this->con.get(), level);) {
+    if (spd_set_punctuation(this->con.get(), level)) {
         log<Debug>("libspeechd error in spd_set_punctuation");
     }
 }
@@ -47,7 +47,7 @@ void TTS::setCapitalization(SPDCapitalLetters mode) {
 SPD_CAP_SPELL = 1,
 SPD_CAP_ICON = 2 */
 
-    if (spd_set_capital_letters(this->con.get(), mode);) {
+    if (spd_set_capital_letters(this->con.get(), mode)) {
         log<Debug>("libspeechd error in spd_capital_letter");
     }
 }
