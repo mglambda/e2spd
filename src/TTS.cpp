@@ -1,7 +1,11 @@
 
 
-#include "TTS.hpp"
+
 #include <string>
+#include "TTS.hpp"
+#include "log.hpp"
+
+
 
 using namespace std;
 
@@ -28,7 +32,8 @@ void TTS::setPunctuation(SPDPunctuation level) {
 	SPD_PUNCT_NONE = 1,
 	SPD_PUNCT_SOME = 2,
 	SPD_PUNCT_MOST = 3	 */
-
+	log<Debug>("setting punct to", level);
 	spd_set_punctuation(this->con.get(), level);
 
 }
+

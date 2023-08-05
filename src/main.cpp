@@ -43,7 +43,7 @@ int main(int argc, char** argv) {
         log<Debug>(cmd, " with data: ", data);
 
         if (!st.handleCommand(cmd, data)) {
-            log<Error>("unrecognized command");
+            log<Error>("unrecognized command: ", cmd);
             st.tts.say(line);
         }
     }
