@@ -1,0 +1,9 @@
+.stack-work/
+etc/
+build/
+app/data/
+*~
+__*
+#*
+*.o
+*.tmp
