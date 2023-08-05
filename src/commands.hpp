@@ -64,11 +64,21 @@ inline void ttsSetPunctuation(State& st, std::string w) {
     }
 
     log<Error>("Attempt to set punctuation to unsupported mode: ", v);
+} /* end ttsSetPunctuation */
+
+inline void ttsSetSplitCaps(State& st, std::string w) {
+    auto maybeSplitCapsInt = strToInt(w);
+
+    if (!maybeSplitCapsInt) {
+        log<Error>("Attempt to set spli caps to invalid mode: ", w);
+        return;
+    }
+
+    st.tts.setSplitCapitalization(*maybeSplitCapsInt);
 }
 
 inline void ttsSyncState(State& st, std::string w) {
-    //         punct, capitalize, allcaps, splitcaps, rate = re.split("\s+",
-    //         data)
+    //         punct, splitcaps 1/0, caps 1/0, rate
 }
 
 #endif

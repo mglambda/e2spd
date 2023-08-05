@@ -19,6 +19,8 @@ public:
 	void stop();
 	void setRate(int rate);
 	void setPunctuation(SPDPunctuation level);
+	void setSplitCapitalization(bool splitcaps);
+	void setCapitalization(SPDCapitalLetters mode);
   TTS()
       : con(spd_open("e2spd", "e2spd-con", "e2spd-user",
                      SPD_MODE_THREADED)) {
