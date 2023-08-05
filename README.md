@@ -12,6 +12,7 @@ Currently only tested on arch linux.
  - speech-dispatcher
  - libspeechd
  - C++ compiler with at least C++17 capabilities
+  - boost
  - cmake >= 3.27.1
 
 On arch, an up-to-date libspeechd can be installed with the libspeechd-git package from the AUR.
