@@ -21,6 +21,9 @@ public:
     void setPunctuation(SPDPunctuation level);
     void setSplitCapitalization(bool splitcaps);
     void setCapitalization(SPDCapitalLetters mode);
+	void setLanguage(const std::string lang); 
+
+	
     TTS()
         : con(spd_open("e2spd", "e2spd-con", "e2spd-user", SPD_MODE_THREADED)) {
     }

@@ -18,7 +18,7 @@ State::commands_t commands = {{"s", stopSpeaking},
                               {"tts_set_punctuations", ttsSetPunctuation},
                               {"tts_split_caps", ttsSetSplitCaps},
                               {"tts_set_speech_rate", ttsSetSpeechRate},
-
+                              {"set_lang", ttsSetLanguage},
                               {"tts_sync_state", ttsSyncState},
                               {"tts_say", ttsSay}};
 

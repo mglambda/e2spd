@@ -51,3 +51,7 @@ SPD_CAP_ICON = 2 */
         log<Debug>("libspeechd error in spd_capital_letter");
     }
 }
+
+void TTS::setLanguage(const std::string lang) {
+    spd_set_language(this->con.get(), lang.c_str());
+}

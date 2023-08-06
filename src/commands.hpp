@@ -16,8 +16,8 @@ inline void queueMsg(State& st, const std::string w) {
 }
 
 inline void queueCode(State& st, const std::string w) {
-	// FIXME: stub. need to find out what codes actually do
-	st.msgs.push(w);
+    // FIXME: stub. need to find out what codes actually do
+    st.msgs.push(w);
 }
 inline void speakQueue(State& st, const std::string dummy) {
     if (st.msgs.empty()) {
@@ -48,7 +48,7 @@ inline void ttsSetSpeechRate(State& st, const std::string w) {
         return;
     }
 
-	log<Debug>("Setting rate to ", *maybeRate);
+    log<Debug>("Setting rate to ", *maybeRate);
     st.tts.setRate(*maybeRate);
 }
 
@@ -81,7 +81,7 @@ inline void ttsSetSplitCaps(State& st, const std::string w) {
         return;
     }
 
-	log<Debug>("Setting splitcaps to ", *maybeSplitCapsInt);
+    log<Debug>("Setting splitcaps to ", *maybeSplitCapsInt);
     st.tts.setSplitCapitalization(*maybeSplitCapsInt);
 }
 
@@ -114,20 +114,26 @@ inline void ttsSyncState(State& st, const std::string w) {
      * instead combining splitcaps and caps into 3 capitalization submodes. So
      * we have to repackage the arguments a little here. */
     if (splitcaps) {
-		log<Debug>("Setting caps to icon");
+        log<Debug>("Setting caps to icon");
         st.tts.setCapitalization(SPD_CAP_ICON);
         return;
     }
 
     if (caps) {
-		log<Debug>("Setting caps to spell");
+        log<Debug>("Setting caps to spell");
         st.tts.setCapitalization(SPD_CAP_SPELL);
     } else {
-		log<Debug>("Setting caps to none");
+        log<Debug>("Setting caps to none");
         st.tts.setCapitalization(SPD_CAP_NONE);
     }
 }
 
+inline void ttsSetLanguage(State& st, const std::string w) {
+    // command is in the form 'set_lange LANGUAGE SAY_IT', ofc command is not
+    // part of w
+    // FIXME: don't know what say_it means
+    log<Debug>("setting language to ", w);
+    auto [lang, sayIt] = split1(w, " ");
+    st.tts.setLanguage(lang);
+}
 #endif
-
-
