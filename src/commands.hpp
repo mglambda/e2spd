@@ -15,6 +15,10 @@ inline void queueMsg(State& st, const std::string w) {
     return;
 }
 
+inline void queueCode(State& st, const std::string w) {
+	// FIXME: stub. need to find out what codes actually do
+	st.msgs.push(w);
+}
 inline void speakQueue(State& st, const std::string dummy) {
     if (st.msgs.empty()) {
         return;

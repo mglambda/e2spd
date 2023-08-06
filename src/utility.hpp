@@ -5,7 +5,6 @@
 #include <optional>
 #include <string_view>
 
-
 #include "log.hpp"
 
 inline std::pair<std::string, std::string> split1(const std::string w,
@@ -15,7 +14,26 @@ inline std::pair<std::string, std::string> split1(const std::string w,
         return std::make_pair(w, "");
     }
 
-    return std::make_pair(w.substr(0, i), w.substr(i+1));
+    return std::make_pair(w.substr(0, i), w.substr(i + 1));
+}
+
+inline std::optional<std::string> upToDelimiter(const std::string w,
+                                                const std::string delimiter) {
+    auto n = w.find(delimiter);
+    if (n == w.npos) {
+        return std::optional<std::string>{};
+    }
+
+    return std::make_optional(w.substr(0, n));
+}
+
+inline std::optional<std::string> afterDelimiter(const std::string w,
+                                                 const std::string delimiter) {
+    auto n = w.find(delimiter);
+    if (n == w.npos) {
+        return std::optional<std::string>{};
+    }
+    return std::make_optional(w.substr(n + 1));
 }
 
 inline std::optional<int> strToInt(const std::string& w) {
